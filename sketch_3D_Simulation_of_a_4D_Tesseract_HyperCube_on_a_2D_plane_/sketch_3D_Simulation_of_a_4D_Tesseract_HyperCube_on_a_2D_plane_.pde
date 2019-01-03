@@ -10,9 +10,7 @@ void setup() {
   rawPoints = new float[(int)pow(2, dimentions)][];
   for(int i = 0; i < rawPoints.length; i++){
     rawPoints[i] = new float[dimentions];
-//    scaledPoints[i] = new float[2];
   }
-  
   
   rawPoints[0] = new float[]{-0.5, -0.5, -0.5};
   rawPoints[1] = new float[]{0.5, -0.5, -0.5};
@@ -22,13 +20,10 @@ void setup() {
   rawPoints[5] = new float[]{0.5, -0.5, 0.5};
   rawPoints[6] = new float[]{0.5, 0.5, 0.5};
   rawPoints[7] = new float[]{-0.5, 0.5, 0.5};
-  
 }
-
 
 void draw() {
   translate(width / 2, height / 2);
-  
   background(0); 
   stroke(255);
   strokeWeight(20);
@@ -56,12 +51,8 @@ void draw() {
     point[0] = rawPoints[i];
     point = formatPoint(point);
     point = multiplyMatrices(rotationMatrixX, point);
-//    point = formatPoint(point);
     point = multiplyMatrices(rotationMatrixY, point);
-//    point = formatPoint(point);
     point = multiplyMatrices(rotationMatrixZ, point);
-//    point = formatPoint(point);
-
     point = multiplyMatrices(projectionMatrix(point, 2), point);
     point = formatPoint(point);
     scaledPoints[i] = point[0]; //<>//
@@ -125,12 +116,6 @@ float[][] multiplyMatrices(float[][] a, float[][] b){
   }
   return productMatrix;
 }
-
-
-
-
-
-
 
 // 1D
 // 2 points
