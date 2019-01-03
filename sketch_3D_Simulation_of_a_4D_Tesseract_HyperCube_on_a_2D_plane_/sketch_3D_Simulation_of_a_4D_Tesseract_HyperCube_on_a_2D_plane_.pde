@@ -31,7 +31,7 @@ void draw() {
   
   background(0); 
   stroke(255);
-  strokeWeight(10);
+  strokeWeight(20);
   
   float[][] projectionMatrix = {
     {1, 0, 0},
@@ -72,10 +72,23 @@ void draw() {
   } //<>//
   
   for (int i = 0; i < scaledPoints.length; i++){
-    point(scaledPoints[i][0] * 500, scaledPoints[i][1] * 500); //<>//
+    scaledPoints[i][0] *= 500;
+    scaledPoints[i][1] *= 500;
+    point(scaledPoints[i][0], scaledPoints[i][1]); //<>//
   } 
   
+  for (int i = 0; i < 4; i++) {
+    connect(i, (i+1) % 4, scaledPoints);
+    connect(i+4, ((i+1) % 4)+4, scaledPoints);
+    connect(i, i+4, scaledPoints);
+  }
+  
   angle += 0.01;
+}
+
+void connect(int i, int j, float[][] points) {
+  strokeWeight(1);
+  line(points[i][0], points[i][1], points[j][0], points[j][1]);
 }
 
 float[][] formatPoint(float[][] raw){
