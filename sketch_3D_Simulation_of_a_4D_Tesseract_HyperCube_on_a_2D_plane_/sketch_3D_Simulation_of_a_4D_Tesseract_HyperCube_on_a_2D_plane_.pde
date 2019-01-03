@@ -4,7 +4,7 @@ float[][] scaledPoints;
 float angle = 0;
 
 void setup() {
-  size(1000, 1000, P2D);
+  size(2000, 2000, P2D);
 
   scaledPoints = new float[(int)pow(2, dimentions)][];
   rawPoints = new float[(int)pow(2, dimentions)][];
@@ -32,11 +32,6 @@ void draw() {
   background(0); 
   stroke(255);
   strokeWeight(20);
-  
-  float[][] projectionMatrix = {
-    {1, 0, 0},
-    {0, 1, 0}    
-  };
 
   float[][] rotationMatrixX = {
     { 1, 0, 0},
@@ -66,14 +61,15 @@ void draw() {
 //    point = formatPoint(point);
     point = multiplyMatrices(rotationMatrixZ, point);
 //    point = formatPoint(point);
-    point = multiplyMatrices(projectionMatrix, point);
+
+    point = multiplyMatrices(projectionMatrix(point, 2), point);
     point = formatPoint(point);
     scaledPoints[i] = point[0]; //<>//
   } //<>//
   
   for (int i = 0; i < scaledPoints.length; i++){
-    scaledPoints[i][0] *= 500;
-    scaledPoints[i][1] *= 500;
+    scaledPoints[i][0] *= 1500;
+    scaledPoints[i][1] *= 1500;
     point(scaledPoints[i][0], scaledPoints[i][1]); //<>//
   } 
   
@@ -83,7 +79,17 @@ void draw() {
     connect(i, i+4, scaledPoints);
   }
   
-  angle += 0.01;
+  angle += 0.02;
+}
+
+float[][] projectionMatrix(float[][] point, float scale){
+  float z = 1 / (scale - point[2][0]);
+  
+  float[][] projectionMatrix = {
+    {z, 0, 0},
+    {0, z, 0}    
+  };
+  return projectionMatrix;
 }
 
 void connect(int i, int j, float[][] points) {
