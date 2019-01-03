@@ -10,7 +10,7 @@ void setup() {
   rawPoints = new float[(int)pow(2, dimentions)][];
   for(int i = 0; i < rawPoints.length; i++){
     rawPoints[i] = new float[dimentions];
-    scaledPoints[i] = new float[2];
+//    scaledPoints[i] = new float[2];
   }
   
   
@@ -21,7 +21,7 @@ void setup() {
   rawPoints[4] = new float[]{-0.5, -0.5, 0.5};
   rawPoints[5] = new float[]{0.5, -0.5, 0.5};
   rawPoints[6] = new float[]{0.5, 0.5, 0.5};
-  rawPoints[6] = new float[]{-0.5, 0.5, 0.5};
+  rawPoints[7] = new float[]{-0.5, 0.5, 0.5};
   
 }
 
@@ -33,16 +33,9 @@ void draw() {
   stroke(255);
   strokeWeight(10);
   
-  
   float[][] projectionMatrix = {
     {1, 0, 0},
     {0, 1, 0}    
-  };
-  
-  float[][] rotationMatrixZ = {
-    { cos(angle), -sin(angle), 0},
-    { sin(angle), cos(angle), 0},
-    { 0, 0, 1}
   };
 
   float[][] rotationMatrixX = {
@@ -57,14 +50,45 @@ void draw() {
     { -sin(angle), 0, cos(angle)}
   };
   
+  float[][] rotationMatrixZ = {
+    { cos(angle), -sin(angle), 0},
+    { sin(angle), cos(angle), 0},
+    { 0, 0, 1}
+  };
+  
   for (int i = 0; i < rawPoints.length; i++) {
-    
-  }
-
+    float[][] point = new float[1][1]; //<>//
+    point[0] = rawPoints[i];
+    point = formatPoint(point);
+    point = multiplyMatrices(rotationMatrixX, point);
+//    point = formatPoint(point);
+    point = multiplyMatrices(rotationMatrixY, point);
+//    point = formatPoint(point);
+    point = multiplyMatrices(rotationMatrixZ, point);
+//    point = formatPoint(point);
+    point = multiplyMatrices(projectionMatrix, point);
+    point = formatPoint(point);
+    scaledPoints[i] = point[0]; //<>//
+  } //<>//
   
   for (int i = 0; i < scaledPoints.length; i++){
-    point(scaledPoints[i][0], scaledPoints[i][1]);
+    point(scaledPoints[i][0] * 500, scaledPoints[i][1] * 500); //<>//
   } 
+  
+  angle += 0.01;
+}
+
+float[][] formatPoint(float[][] raw){
+  float[][] output = new float[raw[0].length][];
+  for (int i = 0; i < output.length; i++){
+    output[i] = new float[raw.length];
+  }
+  for (int x = 0; x < output.length; x++){
+    for (int y = 0; y < output[0].length; y++){
+      output[x][y] = raw[y][x];
+    }    
+  }
+  return output;
 }
 
 float[][] multiplyMatrices(float[][] a, float[][] b){
