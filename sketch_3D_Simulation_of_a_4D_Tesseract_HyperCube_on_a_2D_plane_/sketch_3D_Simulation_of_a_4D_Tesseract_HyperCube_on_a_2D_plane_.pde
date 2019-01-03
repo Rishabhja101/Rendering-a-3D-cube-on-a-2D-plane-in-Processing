@@ -67,6 +67,21 @@ void draw() {
   } 
 }
 
+float[][] multiplyMatrices(float[][] a, float[][] b){
+  float[][] productMatrix = new float[a.length][];
+  for(int i = 0; i < productMatrix.length; i++){
+    productMatrix[i] = new float[b[0].length];
+  }
+  for (int x = 0; x < productMatrix.length; x++){
+    for (int y = 0; y < productMatrix[0].length; y++){
+      productMatrix[x][y] = 0;
+      for (int i = 0; i < b.length; i++){
+        productMatrix[x][y] += a[x][i] * b[i][y];
+      }
+    }    
+  }
+  return productMatrix;
+}
 
 
 
